@@ -5,7 +5,7 @@ export default function Footer() {
         <div>
           <div className="brand" style={{ color: 'white', marginBottom: 12 }}>
             <span className="brand-mark">✦</span>
-            Muda Muda Cleaning
+            Clean Sweep by Heather
           </div>
           <p style={{ maxWidth: '32ch', color: '#94a3b8', fontSize: '0.9rem' }}>
             Professional home &amp; office cleaning with upfront, photo-backed pricing.
@@ -25,13 +25,13 @@ export default function Footer() {
             <ul>
               <li><a href="/estimate">Instant estimate</a></li>
               <li><a href="tel:18885551234">(888) 555-1234</a></li>
-              <li><a href="mailto:hello@mudamudacleaning.com">hello@mudamudacleaning.com</a></li>
+              <li><a href="mailto:hello@cleansweepbyheather.com">hello@cleansweepbyheather.com</a></li>
             </ul>
           </div>
         </div>
       </div>
       <div className="footer-bottom">
-        © {new Date().getFullYear()} Muda Muda Cleaning. All rights reserved.
+        © {new Date().getFullYear()} Clean Sweep by Heather. All rights reserved.
       </div>
     </footer>
   );
