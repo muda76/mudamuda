@@ -1,0 +1,8 @@
+node_modules/
+dist/
+.env
+.env.local
+
+# Runtime data — keep the folders, ignore what's generated at runtime
+server/uploads/*
+!server/uploads/.gitkeep

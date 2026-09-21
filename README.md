@@ -1,4 +1,63 @@
 mudamuda
 ========
 
-Test
+A cleaning service website where customers can upload photos of the areas
+they want cleaned and answer a short questionnaire to get an instant,
+itemized price estimate — no phone call required.
+
+## What's here
+
+- **`client/`** — React (Vite) front end: marketing landing page, a
+  multi-step estimate wizard with drag-and-drop photo upload and a live
+  price preview, a thank-you page, and a token-gated admin page for
+  viewing submitted requests.
+- **`server/`** — Express API: a rule-based pricing engine
+  (`server/src/pricing.js`), photo upload handling (Multer), and a small
+  JSON-file store for submitted leads.
+
+## How the estimate works
+
+Price is computed from the service type, square footage, bedroom/bathroom
+count, condition, recurrence, add-ons, and pets — see
+`server/src/pricing.js` for the exact rules (mirrored in
+`client/src/lib/pricing.js` so the wizard can show a live price as you
+type). Uploaded photos aren't run through image recognition; they're
+attached to the request so a human can confirm the price before the crew
+is booked, and the UI is upfront about that.
+
+## Running it locally
+
+Requires Node 20+.
+
+```bash
+# terminal 1 — API server (http://localhost:4000)
+cd server
+npm install
+npm run dev
+
+# terminal 2 — front end (http://localhost:5173)
+cd client
+npm install
+npm run dev
+```
+
+The Vite dev server proxies `/api` and `/uploads` to `http://localhost:4000`,
+so open `http://localhost:5173` and everything just works.
+
+### Admin view
+
+Visit `/admin` and enter the admin token to see submitted estimate
+requests along with their photos. Set a real token via the `ADMIN_TOKEN`
+environment variable before running the server in anything but a local
+demo — it defaults to `letmein-admin` otherwise:
+
+```bash
+ADMIN_TOKEN=your-secret-token npm start
+```
+
+## Building for production
+
+```bash
+cd client && npm run build   # outputs client/dist
+cd server && npm start       # serve the API (put a real reverse proxy / static host in front)
+```
