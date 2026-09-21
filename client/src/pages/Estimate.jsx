@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import PhotoUpload from '../components/PhotoUpload.jsx';
+import { apiUrl } from '../lib/api.js';
 import { ADD_ONS, calculateEstimate, CONDITIONS, FREQUENCIES, SERVICE_TYPES } from '../lib/pricing.js';
 
 const STEP_LABELS = ['Service', 'Property', 'Condition & add-ons', 'Photos', 'Your details'];
@@ -55,7 +56,7 @@ export default function Estimate() {
       body.append('data', JSON.stringify(form));
       photos.forEach((file) => body.append('photos', file));
 
-      const res = await fetch('/api/leads', { method: 'POST', body });
+      const res = await fetch(apiUrl('/api/leads'), { method: 'POST', body });
       const payload = await res.json();
       if (!res.ok) throw new Error(payload.error || 'Something went wrong submitting your estimate.');
 

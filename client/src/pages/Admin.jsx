@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { apiUrl } from '../lib/api.js';
 
 export default function Admin() {
   const [token, setToken] = useState(sessionStorage.getItem('adminToken') || '');
@@ -11,7 +12,7 @@ export default function Admin() {
     setLoading(true);
     setError('');
     try {
-      const res = await fetch(`/api/leads?token=${encodeURIComponent(token)}`);
+      const res = await fetch(apiUrl(`/api/leads?token=${encodeURIComponent(token)}`));
       if (res.status === 401) throw new Error('Incorrect admin token.');
       if (!res.ok) throw new Error('Could not load estimate requests.');
       const data = await res.json();
@@ -92,8 +93,8 @@ export default function Admin() {
             {lead.photos.length > 0 && (
               <div className="lead-photos">
                 {lead.photos.map((p) => (
-                  <a href={p.url} target="_blank" rel="noreferrer" key={p.filename}>
-                    <img src={p.url} alt={p.originalName} />
+                  <a href={apiUrl(p.url)} target="_blank" rel="noreferrer" key={p.filename}>
+                    <img src={apiUrl(p.url)} alt={p.originalName} />
                   </a>
                 ))}
               </div>

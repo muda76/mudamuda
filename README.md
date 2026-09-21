@@ -55,6 +55,34 @@ demo — it defaults to `letmein-admin` otherwise:
 ADMIN_TOKEN=your-secret-token npm start
 ```
 
+## Deploying (Vercel + Render)
+
+The front end and API deploy as two separate services since the API keeps
+uploaded photos and leads on local disk, which serverless platforms don't
+preserve between requests.
+
+**Backend — Render (Web Service)**
+1. New → Web Service → paste this repo's public URL (no GitHub connection
+   needed since the repo is public).
+2. Root directory: `server`. Build command: `npm install`. Start command: `npm start`.
+3. Add an environment variable `ADMIN_TOKEN` set to a real secret.
+4. Deploy, then copy the resulting `https://<name>.onrender.com` URL.
+
+Render's free tier spins the instance down when idle and does **not**
+persist local disk across restarts — uploaded photos and `leads.json` will
+be lost on a cold restart. Fine for a demo; attach a paid persistent disk
+(or swap the JSON store / photo storage for a real database and object
+store) before relying on this for real customer data.
+
+**Frontend — Vercel (static)**
+1. Import the repo, set the project root to `client`.
+2. Build command: `npm run build`. Output directory: `dist`.
+3. Add an environment variable `VITE_API_URL` set to the Render URL from
+   above (no trailing slash), then deploy.
+
+`client/vercel.json` rewrites all routes to `index.html` so client-side
+routes like `/estimate` and `/admin` work on direct load.
+
 ## Building for production
 
 ```bash
