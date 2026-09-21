@@ -6,7 +6,7 @@ export default function Header() {
       <div className="container">
         <Link to="/" className="brand">
           <span className="brand-mark">✦</span>
-          Muda Muda Cleaning
+          Clean Sweep by Heather
         </Link>
         <nav>
           <a href="/#services">Services</a>
