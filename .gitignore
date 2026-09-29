@@ -6,3 +6,7 @@ dist/
 # Runtime data — keep the folders, ignore what's generated at runtime
 server/uploads/*
 !server/uploads/.gitkeep
+
+# Homestead Commons runtime data
+homestead/server/data/*
+!homestead/server/data/.gitkeep
