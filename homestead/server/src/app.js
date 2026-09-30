@@ -1,11 +1,18 @@
 import express from 'express';
 import cors from 'cors';
+import path from 'node:path';
+import { existsSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
 import { nanoid } from 'nanoid';
 import { ACTIVITIES, NUTRIENTS, PRODUCTS, getProduct } from './catalog.js';
 import { communitySnapshot, DEFAULT_LOCAL_GOAL, percentDailyValue } from './nutrition.js';
 import { CREDIT_LIMIT, DOLLARS_PER_CREDIT, MAX_GAP_BONUS, memberBalance, quoteTrade, unitValue } from './valuation.js';
 import { load, update } from './store.js';
 import { hashPassword, newToken, publicMember, verifyPassword } from './auth.js';
+
+// The built front end. When present, the API serves it too, so the whole app
+// deploys as a single web service.
+const CLIENT_DIST = path.join(path.dirname(fileURLToPath(import.meta.url)), '..', '..', 'client', 'dist');
 
 const LOCAL_GOAL = Number(process.env.LOCAL_GOAL) || DEFAULT_LOCAL_GOAL;
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -471,6 +478,14 @@ export function createApp() {
       res.json(trade);
     }),
   );
+
+  app.use('/api', (_req, _res, next) => next(new HttpError(404, 'Not found.')));
+
+  if (existsSync(CLIENT_DIST)) {
+    app.use(express.static(CLIENT_DIST));
+    // Client-side routes like /market load index.html and React takes over.
+    app.get('*', (_req, res) => res.sendFile(path.join(CLIENT_DIST, 'index.html')));
+  }
 
   app.use((err, _req, res, _next) => {
     if (err instanceof HttpError) return res.status(err.status).json({ error: err.message });

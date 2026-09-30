@@ -1,0 +1,12 @@
+{
+  "name": "homestead-commons",
+  "private": true,
+  "description": "Builds the front end and runs the API, which serves it — one web service for the whole app.",
+  "scripts": {
+    "build": "npm --prefix client ci --include=dev && npm --prefix client run build && npm --prefix server ci",
+    "start": "npm --prefix server start"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

@@ -85,13 +85,30 @@ cd homestead/server && npm test   # valuation, nutrition, and API flow tests
 Data is kept in `server/data/db.json` (gitignored). Delete that file to start
 over.
 
-## Deploying
+## Deploying (Render only)
 
-The setup is the same as the cleaning app in the repo root: host the API on
-Render (root `homestead/server`, start `npm start`) and the static front end
-on Vercel (root `homestead/client`, with `VITE_API_URL` set to the API URL).
-The JSON file store needs persistent disk, so before real use, attach a
-persistent disk or swap `server/src/store.js` for a database.
+The API serves the built front end, so the whole app is **one Render web
+service**. No Vercel needed.
+
+1. In Render: **New → Web Service**, and connect this GitHub repo.
+2. Settings:
+   - **Branch:** the branch you want live (e.g. `main` once merged)
+   - **Root Directory:** `homestead`
+   - **Runtime:** Node
+   - **Build Command:** `npm run build`
+   - **Start Command:** `npm start`
+   - **Instance type:** Free is fine for trying it out
+3. Under **Environment**, add `SEED_DEMO` = `true` to load the demo
+   neighbors whenever the database is empty.
+4. Click **Create Web Service**. After a few minutes the app is live at
+   `https://<your-service-name>.onrender.com`.
+
+**Free-tier caveats:** the service sleeps after about 15 minutes idle, so the
+first visit after that takes 30–60 seconds to wake up. Its disk isn't
+persistent, so sign-ups, pledges, and trades are wiped on every restart or
+redeploy (with `SEED_DEMO=true`, the demo neighbors come back). Before real
+neighbors rely on it, attach a Render persistent disk (paid) mounted at
+`homestead/server/data`, or move `server/src/store.js` to a database.
 
 ## Ideas for next steps
 
