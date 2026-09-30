@@ -1,6 +1,12 @@
 mudamuda
 ========
 
+This repo holds two independent apps:
+
+- **Homestead Commons** (`homestead/`) lets neighbors coordinate backyard food
+  production and trade it fairly. See [`homestead/README.md`](homestead/README.md).
+- **Clean Sweep by Heather** (`client/` + `server/`) is described below.
+
 A cleaning service website where customers can upload photos of the areas
 they want cleaned and answer a short questionnaire to get an instant,
 itemized price estimate — no phone call required.
